@@ -89,7 +89,7 @@ def valid(point):
 
 
 def world():
-    """Draw world using path."""
+    """Draw world using pavdsdvth."""
     bgcolor('black')
     path.color('blue')
 
@@ -134,12 +134,45 @@ def move():
         if valid(point + course):
             point.move(course)
         else:
-            options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
-            ]
+            #Movimiento de los fantasmas inteligentes
+            #Con base en la posición de Pacman, generar el vector para el movimiento de los fantasmas
+
+            if(pacman.x > point.x): #Si pacman en x es mayor a fantasma en x
+                #Pacman en la derecha
+                options = [
+                    vector(5, 0),
+                    vector(0, 0),
+                ]
+                if(pacman.y > point.y): #Si pacman en y es mayor a fantasma en y
+                    #Pacman arriba a la derecha
+                    options = [
+                        vector(10, 0), 
+                        vector(0, 10),
+                    ]
+                else: #Si pacman en y es menor a fantasma en y
+                    #Pacman a la derecha abajo
+                    options = [
+                        vector(10, 0), 
+                        vector(0, -10),
+                    ]
+            else: #Si pacman en x es menor a fantasma en x
+                #Pacman en la izquierda
+                options = [
+                    vector(0, 0),
+                    vector(0, 5),
+                ]
+                if(pacman.y > point.y): #Si pacman en y es mayor a fantasma en y
+                    #Pacman arriba a la izquierda
+                    options = [
+                        vector(10, 0), 
+                        vector(0, 10),
+                    ]
+                else:
+                    #Pacman abajo a la izquierda
+                    options = [
+                        vector(-10, 0), 
+                        vector(0, -10),
+                    ]
             plan = choice(options)
             course.x = plan.x
             course.y = plan.y
@@ -154,7 +187,7 @@ def move():
         if abs(pacman - point) < 20:
             return
 
-    ontimer(move, 100)
+    ontimer(move, 80) #Disminución en el ontimer para mayor velocidad
 
 
 def change(x, y):
